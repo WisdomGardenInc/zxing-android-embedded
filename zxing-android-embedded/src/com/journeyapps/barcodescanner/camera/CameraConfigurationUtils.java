@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.journeyapps.barcodescanner.camera;
+package com.wisdomgarden.barcodescanner.camera;
 
 import android.annotation.TargetApi;
 import android.graphics.Rect;
@@ -22,7 +22,7 @@ import android.hardware.Camera;
 import android.os.Build;
 import android.util.Log;
 
-import com.journeyapps.barcodescanner.camera.CameraSettings;
+import com.wisdomgarden.barcodescanner.camera.CameraSettings;
 
 import java.util.Arrays;
 import java.util.Collection;

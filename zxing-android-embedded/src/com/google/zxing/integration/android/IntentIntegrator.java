@@ -24,7 +24,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import com.google.zxing.client.android.Intents;
-import com.journeyapps.barcodescanner.CaptureActivity;
+import com.wisdomgarden.barcodescanner.CaptureActivity;
 
 import java.util.Arrays;
 import java.util.Collection;

@@ -1,4 +1,4 @@
-package com.journeyapps.barcodescanner;
+package com.wisdomgarden.barcodescanner;
 
 import com.google.zxing.ResultPoint;
 import com.google.zxing.ResultPointCallback;

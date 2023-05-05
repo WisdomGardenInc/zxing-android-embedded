@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <com.journeyapps.barcodescanner.BarcodeView
+    <com.wisdomgarden.barcodescanner.BarcodeView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/zxing_barcode_surface"/>
 
-    <com.journeyapps.barcodescanner.ViewfinderView
+    <com.wisdomgarden.barcodescanner.ViewfinderView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/zxing_viewfinder_view"/>

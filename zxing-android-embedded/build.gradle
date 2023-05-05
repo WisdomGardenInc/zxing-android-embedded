@@ -103,12 +103,12 @@ project.afterEvaluate {
                 pom {
                     name = project.artifactId
                     description = 'Barcode scanner library for Android, based on the ZXing decoder'
-                    url = 'https://github.com/journeyapps/zxing-android-embedded'
+                    url = 'https://github.com/wisdomgarden/zxing-android-embedded'
 
                     licenses {
                         license {
                             name = 'The Apache License, Version 2.0'
-                            url = 'https://github.com/journeyapps/zxing-android-embedded/blob/master/COPYING'
+                            url = 'https://github.com/wisdomgarden/zxing-android-embedded/blob/master/COPYING'
                         }
                     }
 
@@ -116,15 +116,15 @@ project.afterEvaluate {
                         developer {
                             id = ''
                             name = 'Ralf Kistner'
-                            email = 'ralf@journeyapps.com'
+                            email = 'ralf@wisdomgarden.com'
                             organization = 'Journey Mobile, Inc'
-                            organizationUrl = 'https://journeyapps.com'
+                            organizationUrl = 'https://wisdomgarden.com'
                         }
                     }
                     scm {
-                        connection = 'scm:git:github.com/journeyapps/zxing-android-embedded.git'
-                        developerConnection = 'scm:git:ssh://github.com/journeyapps/zxing-android-embedded.git'
-                        url = 'https://github.com/journeyapps/zxing-android-embedded'
+                        connection = 'scm:git:github.com/wisdomgarden/zxing-android-embedded.git'
+                        developerConnection = 'scm:git:ssh://github.com/wisdomgarden/zxing-android-embedded.git'
+                        url = 'https://github.com/wisdomgarden/zxing-android-embedded'
                     }
                 }
 

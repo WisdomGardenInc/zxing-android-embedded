@@ -1,6 +1,6 @@
-package com.journeyapps.barcodescanner.camera;
+package com.wisdomgarden.barcodescanner.camera;
 
-import com.journeyapps.barcodescanner.SourceData;
+import com.wisdomgarden.barcodescanner.SourceData;
 
 /**
  * Callback for camera previews.

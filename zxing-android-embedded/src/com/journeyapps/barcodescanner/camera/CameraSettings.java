@@ -1,4 +1,4 @@
-package com.journeyapps.barcodescanner.camera;
+package com.wisdomgarden.barcodescanner.camera;
 
 import com.google.zxing.client.android.camera.open.OpenCameraInterface;
 

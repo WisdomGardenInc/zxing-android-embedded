@@ -1,9 +1,9 @@
-package com.journeyapps.barcodescanner.camera;
+package com.wisdomgarden.barcodescanner.camera;
 
 import android.graphics.Rect;
 import android.util.Log;
 
-import com.journeyapps.barcodescanner.Size;
+import com.wisdomgarden.barcodescanner.Size;
 
 /**
  * Scales the size so that both dimensions will be greater than or equal to the corresponding

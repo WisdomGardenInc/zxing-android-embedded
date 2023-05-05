@@ -1,6 +1,6 @@
-package com.journeyapps.barcodescanner.camera;
+package com.wisdomgarden.barcodescanner.camera;
 
-import com.journeyapps.barcodescanner.Size;
+import com.wisdomgarden.barcodescanner.Size;
 
 import org.junit.Test;
 

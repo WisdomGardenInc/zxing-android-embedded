@@ -30,7 +30,7 @@
 
 
   <application>
-      <activity android:name="com.journeyapps.barcodescanner.CaptureActivity"
+      <activity android:name="com.wisdomgarden.barcodescanner.CaptureActivity"
                 android:clearTaskOnLaunch="true"
                 android:screenOrientation="sensorLandscape"
                 android:stateNotNeeded="true"

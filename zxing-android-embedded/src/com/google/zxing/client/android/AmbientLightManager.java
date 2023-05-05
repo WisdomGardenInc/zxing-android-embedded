@@ -23,8 +23,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Handler;
 
-import com.journeyapps.barcodescanner.camera.CameraManager;
-import com.journeyapps.barcodescanner.camera.CameraSettings;
+import com.wisdomgarden.barcodescanner.camera.CameraManager;
+import com.wisdomgarden.barcodescanner.camera.CameraSettings;
 
 /**
  * Detects ambient light and switches on the front light when very dark, and off again when sufficiently light.

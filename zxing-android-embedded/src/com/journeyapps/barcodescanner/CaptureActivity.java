@@ -1,4 +1,4 @@
-package com.journeyapps.barcodescanner;
+package com.wisdomgarden.barcodescanner;
 
 import android.app.Activity;
 import android.os.Bundle;

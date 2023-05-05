@@ -1,4 +1,4 @@
-package com.journeyapps.barcodescanner;
+package com.wisdomgarden.barcodescanner;
 
 import android.content.Context;
 import android.hardware.SensorManager;

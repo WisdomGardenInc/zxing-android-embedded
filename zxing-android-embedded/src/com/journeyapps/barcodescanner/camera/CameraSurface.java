@@ -1,4 +1,4 @@
-package com.journeyapps.barcodescanner.camera;
+package com.wisdomgarden.barcodescanner.camera;
 
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;

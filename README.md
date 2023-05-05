@@ -1,17 +1,6 @@
-# ZXing Android Embedded
+# WisdomGarden ZXing Android Embedded
 
-Barcode scanning library for Android, using [ZXing][2] for decoding.
-
-The project is loosely based on the [ZXing Android Barcode Scanner application][2], but is not affiliated with the official ZXing project.
-
-Features:
-
-1. Can be used via Intents (little code required).
-2. Can be embedded in an Activity, for advanced customization of UI and logic.
-3. Scanning can be performed in landscape or portrait mode.
-4. Camera is managed in a background thread, for fast startup time.
-
-A sample application is available in [Releases](https://github.com/journeyapps/zxing-android-embedded/releases).
+Fork from [zxing-android-embedded][2] of V4.3.0
 
 By default, Android SDK 24+ is required because of `zxing:core` 3.4.x.
 SDK 19+ is supported with additional configuration, see [Older SDK versions](#older-sdk-versions).
@@ -28,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
+    implementation 'com.wisdomgarden:zxing-android-embedded:4.3.0'
 }
 ```
 
@@ -47,7 +36,7 @@ repositories {
 }
 
 dependencies {
-    implementation('com.journeyapps:zxing-android-embedded:4.3.0') { transitive = false }
+    implementation('com.wisdomgarden:zxing-android-embedded:4.3.0') { transitive = false }
     implementation 'com.google.zxing:core:3.3.0'
 }
 ```
@@ -78,7 +67,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
+    implementation 'com.wisdomgarden:zxing-android-embedded:4.3.0'
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 }
@@ -104,7 +93,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
+    implementation 'com.wisdomgarden:zxing-android-embedded:4.3.0'
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
     implementation "androidx.multidex:multidex:2.0.1"
@@ -188,7 +177,7 @@ Sample:
 
 ```xml
 <activity
-		android:name="com.journeyapps.barcodescanner.CaptureActivity"
+		android:name="com.wisdomgarden.barcodescanner.CaptureActivity"
 		android:screenOrientation="fullSensor"
 		tools:replace="screenOrientation" />
 ```
@@ -203,7 +192,7 @@ barcodeLauncher.launch(options);
 
 See [EMBEDDING](EMBEDDING.md).
 
-For more advanced options, look at the [Sample Application](https://github.com/journeyapps/zxing-android-embedded/blob/master/sample/src/main/java/example/zxing/MainActivity.java),
+For more advanced options, look at the [Sample Application](https://github.com/wisdomgarden/zxing-android-embedded/blob/master/sample/src/main/java/example/zxing/MainActivity.java),
 and browse the source code of the library.
 
 This is considered advanced usage, and is not well-documented or supported.
@@ -233,12 +222,12 @@ You can then use your local version by specifying in your `build.gradle` file:
 
 ## Sponsored by
 
-[JourneyApps][1]
+[wisdomgarden][1]
 
 
 ## License
 
-Licensed under the [Apache License 2.0][7]
+Licensed under the [Apache License 2.0][3]
 
 	Copyright (C) 2012-2022 ZXing authors, Journey Mobile
 
@@ -256,7 +245,6 @@ Licensed under the [Apache License 2.0][7]
 
 
 
-[1]: http://journeyapps.com
-[2]: https://github.com/zxing/zxing/
-[5]: zxing-android-embedded/src/com/journeyapps/barcodescanner/ScanOptions.java
-[7]: http://www.apache.org/licenses/LICENSE-2.0
+[1]: https://www.wisdomgarden.com/
+[2]: https://github.com/journeyapps/zxing-android-embedded
+[3]: http://www.apache.org/licenses/LICENSE-2.0

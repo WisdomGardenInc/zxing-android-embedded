@@ -1,4 +1,4 @@
-package com.journeyapps.barcodescanner;
+package com.wisdomgarden.barcodescanner;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,8 +16,8 @@ import com.google.zxing.client.android.DecodeFormatManager;
 import com.google.zxing.client.android.DecodeHintManager;
 import com.google.zxing.client.android.Intents;
 import com.google.zxing.client.android.R;
-import com.journeyapps.barcodescanner.camera.CameraParametersCallback;
-import com.journeyapps.barcodescanner.camera.CameraSettings;
+import com.wisdomgarden.barcodescanner.camera.CameraParametersCallback;
+import com.wisdomgarden.barcodescanner.camera.CameraSettings;
 
 import java.util.List;
 import java.util.Map;
@@ -94,7 +94,7 @@ public class DecoratedBarcodeView extends FrameLayout {
 
         if (barcodeView == null) {
             throw new IllegalArgumentException(
-                "There is no a com.journeyapps.barcodescanner.BarcodeView on provided layout " +
+                "There is no a com.wisdomgarden.barcodescanner.BarcodeView on provided layout " +
                 "with the id \"zxing_barcode_surface\".");
         }
 
@@ -106,7 +106,7 @@ public class DecoratedBarcodeView extends FrameLayout {
 
         if (viewFinder == null) {
             throw new IllegalArgumentException(
-                "There is no a com.journeyapps.barcodescanner.ViewfinderView on provided layout " +
+                "There is no a com.wisdomgarden.barcodescanner.ViewfinderView on provided layout " +
                 "with the id \"zxing_viewfinder_view\".");
         }
 

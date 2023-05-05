@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package com.journeyapps.barcodescanner;
+package com.wisdomgarden.barcodescanner;
 
 import android.app.Activity;
 import android.content.Intent;

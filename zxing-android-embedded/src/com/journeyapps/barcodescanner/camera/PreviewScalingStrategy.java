@@ -1,9 +1,9 @@
-package com.journeyapps.barcodescanner.camera;
+package com.wisdomgarden.barcodescanner.camera;
 
 import android.graphics.Rect;
 import android.util.Log;
 
-import com.journeyapps.barcodescanner.Size;
+import com.wisdomgarden.barcodescanner.Size;
 
 import java.util.Collections;
 import java.util.Comparator;

@@ -2,7 +2,7 @@
  * Based on IntentIntegrator, Copyright 2009 ZXing authors.
  *
  */
-package com.journeyapps.barcodescanner;
+package com.wisdomgarden.barcodescanner;
 
 import android.content.Context;
 import android.content.Intent;

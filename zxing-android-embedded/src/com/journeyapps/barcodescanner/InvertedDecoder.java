@@ -1,4 +1,4 @@
-package com.journeyapps.barcodescanner;
+package com.wisdomgarden.barcodescanner;
 
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.LuminanceSource;
