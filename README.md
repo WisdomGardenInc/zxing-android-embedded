@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.wisdomgarden:zxing-android-embedded:4.3.0'
+    implementation 'com.wisdomgarden:zxing-android-embedded:1.0.0'
 }
 ```
 
@@ -36,7 +36,7 @@ repositories {
 }
 
 dependencies {
-    implementation('com.wisdomgarden:zxing-android-embedded:4.3.0') { transitive = false }
+    implementation('com.wisdomgarden:zxing-android-embedded:1.0.0') { transitive = false }
     implementation 'com.google.zxing:core:3.3.0'
 }
 ```
@@ -67,7 +67,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.wisdomgarden:zxing-android-embedded:4.3.0'
+    implementation 'com.wisdomgarden:zxing-android-embedded:1.0.0'
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 }
@@ -93,7 +93,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.wisdomgarden:zxing-android-embedded:4.3.0'
+    implementation 'com.wisdomgarden:zxing-android-embedded:1.0.0'
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
     implementation "androidx.multidex:multidex:2.0.1"
