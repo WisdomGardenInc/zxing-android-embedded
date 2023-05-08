@@ -13,7 +13,13 @@ Add the following to your `build.gradle` file:
 // Config for SDK 24+
 
 repositories {
-    mavenCentral()
+    maven {
+        url "http://nexus.tronclass.com.cn:8081/repository/wg"
+        credentials {
+            username NEXUS_NAME
+            password NEXUS_PASSWORD
+        }
+    }
 }
 
 dependencies {
@@ -32,7 +38,13 @@ Some older SDK versions below 19 may work, but this is not tested or supported.
 
 ```groovy
 repositories {
-    mavenCentral()
+    maven {
+        url "http://nexus.tronclass.com.cn:8081/repository/wg"
+        credentials {
+            username NEXUS_NAME
+            password NEXUS_PASSWORD
+        }
+    }
 }
 
 dependencies {
