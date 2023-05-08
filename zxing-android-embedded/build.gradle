@@ -5,21 +5,37 @@ ext.artifactId = 'zxing-android-embedded'
 
 
 // Publishing config from https://getstream.io/blog/publishing-libraries-to-mavencentral-2021/
-ext["NEXUS_NAME"] = ''
-ext["NEXUS_PASSWORD"] = ''
 
-File secretPropsFile = project.rootProject.file('local.properties')
-if (secretPropsFile.exists()) {
-    Properties p = new Properties()
-    p.load(new FileInputStream(secretPropsFile))
-    p.each { name, value ->
-        ext[name] = value
+// 获取nexus 的账号和密码
+def getNexusInfo() {
+    def nexusName = System.getenv('NEXUS_NAME');
+    def nexusPassword = System.getenv('NEXUS_PASSWORD')
+    File secretPropsFile = project.rootProject.file('local.properties')
+    if (secretPropsFile.exists()) {
+        FileInputStream inputStream = null
+        try {
+            inputStream = new FileInputStream(secretPropsFile)
+            Properties p = new Properties()
+            p.load(inputStream)
+            nexusName = p.getProperty('NEXUS_NAME') ?: nexusName
+            nexusPassword = p.getProperty('NEXUS_PASSWORD') ?: nexusPassword
+        } catch (IOException e) {
+            throw new GradleException("Error reading file: ${secretPropsFile.absolutePath}", e)
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close()
+                } catch (IOException ignored) {
+                    // do something
+                }
+            }
+        }
     }
-} else {
-    ext["NEXUS_NAME"] = System.getenv('NEXUS_NAME')
-    ext["NEXUS_PASSWORD"] = System.getenv('NEXUS_PASSWORD')
+    return [nexusName, nexusPassword]
 }
 
+def (nexusName, nexusPassword) = getNexusInfo();
+println "LOCAL_NEXUS_INFO: ${nexusName}|${nexusPassword}"
 
 dependencies {
     api project.zxingCore
@@ -90,7 +106,7 @@ project.afterEvaluate {
                 artifactId project.artifactId
 
                 artifact sourceJar
-                
+
                 pom {
                     name = project.artifactId
                     description = 'Barcode scanner library for Android, based on the ZXing decoder'
@@ -132,16 +148,16 @@ project.afterEvaluate {
             }
         }
 
-         repositories {
-             maven {
-                 name "wg"
-                 url = "http://nexus.tronclass.com.cn:8081/repository/wg"
-                 allowInsecureProtocol = true
-                 credentials {
-                     username NEXUS_NAME
-                     password NEXUS_PASSWORD
-                 }
-             }
-         }
+        repositories {
+            maven {
+                name "wg"
+                url = "http://nexus.tronclass.com.cn:8081/repository/wg"
+                allowInsecureProtocol = true
+                credentials {
+                    username nexusName ?: ''
+                    password nexusPassword ?: ''
+                }
+            }
+        }
     }
 }
