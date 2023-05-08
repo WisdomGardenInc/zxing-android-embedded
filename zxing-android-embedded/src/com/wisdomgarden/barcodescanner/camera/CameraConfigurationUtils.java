@@ -52,30 +52,30 @@ public final class CameraConfigurationUtils {
     }
 
     public static void setFocus(Camera.Parameters parameters,
-								CameraSettings.FocusMode focusModeSetting,
+                                CameraSettings.FocusMode focusModeSetting,
                                 boolean safeMode) {
         List<String> supportedFocusModes = parameters.getSupportedFocusModes();
         String focusMode = null;
 
-		if (safeMode || focusModeSetting == CameraSettings.FocusMode.AUTO) {
-			focusMode = findSettableValue("focus mode",
-					supportedFocusModes,
-					Camera.Parameters.FOCUS_MODE_AUTO);
-		} else if (focusModeSetting == CameraSettings.FocusMode.CONTINUOUS) {
-			focusMode = findSettableValue("focus mode",
-					supportedFocusModes,
-					Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE,
-					Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO,
-					Camera.Parameters.FOCUS_MODE_AUTO);
-		} else if (focusModeSetting == CameraSettings.FocusMode.INFINITY) {
-			focusMode = findSettableValue("focus mode",
-					supportedFocusModes,
-					Camera.Parameters.FOCUS_MODE_INFINITY);
-		} else if (focusModeSetting == CameraSettings.FocusMode.MACRO) {
-			focusMode = findSettableValue("focus mode",
-					supportedFocusModes,
-					Camera.Parameters.FOCUS_MODE_MACRO);
-		}
+        if (safeMode || focusModeSetting == CameraSettings.FocusMode.AUTO) {
+            focusMode = findSettableValue("focus mode",
+                    supportedFocusModes,
+                    Camera.Parameters.FOCUS_MODE_AUTO);
+        } else if (focusModeSetting == CameraSettings.FocusMode.CONTINUOUS) {
+            focusMode = findSettableValue("focus mode",
+                    supportedFocusModes,
+                    Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE,
+                    Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO,
+                    Camera.Parameters.FOCUS_MODE_AUTO);
+        } else if (focusModeSetting == CameraSettings.FocusMode.INFINITY) {
+            focusMode = findSettableValue("focus mode",
+                    supportedFocusModes,
+                    Camera.Parameters.FOCUS_MODE_INFINITY);
+        } else if (focusModeSetting == CameraSettings.FocusMode.MACRO) {
+            focusMode = findSettableValue("focus mode",
+                    supportedFocusModes,
+                    Camera.Parameters.FOCUS_MODE_MACRO);
+        }
 
         // Maybe selected auto-focus but not available, so fall through here:
         if (!safeMode && focusMode == null) {

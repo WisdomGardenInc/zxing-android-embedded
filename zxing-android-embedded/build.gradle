@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
-apply plugin: 'signing'
+ apply plugin: 'signing'
 
 ext.artifactId = 'zxing-android-embedded'
 
@@ -103,28 +103,27 @@ project.afterEvaluate {
                 pom {
                     name = project.artifactId
                     description = 'Barcode scanner library for Android, based on the ZXing decoder'
-                    url = 'https://github.com/wisdomgarden/zxing-android-embedded'
+                    url = 'https://github.com/WisdomGardenInc/zxing-android-embedded'
 
                     licenses {
                         license {
                             name = 'The Apache License, Version 2.0'
-                            url = 'https://github.com/wisdomgarden/zxing-android-embedded/blob/master/COPYING'
+                            url = 'https://github.com/WisdomGardenInc/zxing-android-embedded/blob/master/COPYING'
                         }
                     }
 
                     developers {
                         developer {
                             id = ''
-                            name = 'Ralf Kistner'
-                            email = 'ralf@wisdomgarden.com'
-                            organization = 'Journey Mobile, Inc'
+                            name = 'TC Mobile'
+                            organization = 'WisdomGardenInc, Inc'
                             organizationUrl = 'https://wisdomgarden.com'
                         }
                     }
                     scm {
-                        connection = 'scm:git:github.com/wisdomgarden/zxing-android-embedded.git'
-                        developerConnection = 'scm:git:ssh://github.com/wisdomgarden/zxing-android-embedded.git'
-                        url = 'https://github.com/wisdomgarden/zxing-android-embedded'
+                        connection = 'scm:git:github.com/WisdomGardenInc/zxing-android-embedded.git'
+                        developerConnection = 'scm:git:ssh://github.com/WisdomGardenInc/zxing-android-embedded.git'
+                        url = 'https://github.com/WisdomGardenInc/zxing-android-embedded'
                     }
                 }
 
@@ -147,19 +146,19 @@ project.afterEvaluate {
             }
         }
 
-        repositories {
-            maven {
-                name = "sonatype"
-                url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-                credentials {
-                    username ossrhUsername
-                    password ossrhPassword
-                }
-            }
-        }
+         repositories {
+             maven {
+                 name = "sonatype"
+                 url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+                 credentials {
+                     username ossrhUsername
+                     password ossrhPassword
+                 }
+             }
+         }
     }
 }
 
-signing {
-    sign publishing.publications
-}
+ signing {
+     sign publishing.publications
+ }

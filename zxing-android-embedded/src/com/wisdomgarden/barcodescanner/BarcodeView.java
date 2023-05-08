@@ -4,10 +4,12 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.view.View;
 
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.ResultPoint;
 import com.google.zxing.client.android.R;
+import com.wisdomgarden.barcodescanner.camera.CameraInstance;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,11 +17,11 @@ import java.util.Map;
 
 /**
  * A view for scanning barcodes.
- *
+ * <p>
  * Two methods MUST be called to manage the state:
  * 1. resume() - initialize the camera and start the preview. Call from the Activity's onResume().
  * 2. pause() - stop the preview and release any resources. Call from the Activity's onPause().
- *
+ * <p>
  * Start decoding with decodeSingle() or decodeContinuous(). Stop decoding with stopDecoding().
  *
  * @see CameraPreview for more details on the preview lifecycle.
@@ -40,6 +42,8 @@ public class BarcodeView extends CameraPreview {
 
 
     private Handler resultHandler;
+
+    private Context ctx;
 
     private final Handler.Callback resultCallback = new Handler.Callback() {
         @Override
@@ -74,27 +78,40 @@ public class BarcodeView extends CameraPreview {
 
     public BarcodeView(Context context) {
         super(context);
-        initialize();
+        initialize(context);
     }
 
     public BarcodeView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initialize();
+        initialize(context);
     }
 
     public BarcodeView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initialize();
+        initialize(context);
     }
 
-    private void initialize() {
+    private void initialize(Context context) {
         decoderFactory = new DefaultDecoderFactory();
         resultHandler = new Handler(resultCallback);
+        this.ctx = context;
+    }
+
+    /**
+     * Set scale gesture listener on view
+     *
+     * @param view Real view that needs to be monitored
+     */
+    public void setOnScaleGestureListener(View view) {
+        new GestureDetectorManager(this.ctx, view, isZoomIn -> {
+            CameraInstance cameraInstance = getCameraInstance();
+            cameraInstance.zoomCamera(isZoomIn);
+        });
     }
 
     /**
      * Set the DecoderFactory to use. Use this to specify the formats to decode.
-     *
+     * <p>
      * Call this from UI thread only.
      *
      * @param decoderFactory the DecoderFactory creating Decoders.
@@ -122,7 +139,6 @@ public class BarcodeView extends CameraPreview {
     }
 
     /**
-     *
      * @return the current DecoderFactory in use.
      */
     public DecoderFactory getDecoderFactory() {
@@ -131,7 +147,7 @@ public class BarcodeView extends CameraPreview {
 
     /**
      * Decode a single barcode, then stop decoding.
-     *
+     * <p>
      * The callback will only be called on the UI thread.
      *
      * @param callback called with the barcode result, as well as possible ResultPoints
@@ -144,7 +160,7 @@ public class BarcodeView extends CameraPreview {
 
     /**
      * Continuously decode barcodes. The same barcode may be returned multiple times per second.
-     *
+     * <p>
      * The callback will only be called on the UI thread.
      *
      * @param callback called with the barcode result, as well as possible ResultPoints
@@ -194,9 +210,10 @@ public class BarcodeView extends CameraPreview {
             decoderThread = null;
         }
     }
+
     /**
      * Stops the live preview and decoding.
-     *
+     * <p>
      * Call from the Activity's onPause() method.
      */
     @Override

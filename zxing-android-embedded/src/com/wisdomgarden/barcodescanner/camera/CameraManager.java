@@ -35,10 +35,10 @@ import java.util.List;
 /**
  * Wrapper to manage the Camera. This is not thread-safe, and the methods must always be called
  * from the same thread.
- *
- *
+ * <p>
+ * <p>
  * Call order:
- *
+ * <p>
  * 1. setCameraSettings()
  * 2. open(), set desired preview size (any order)
  * 3. configure(), setPreviewDisplay(holder) (any order)
@@ -70,6 +70,12 @@ public final class CameraManager {
     private Size previewSize;
 
     private int rotationDegrees = -1;    // camera rotation vs display rotation
+
+    private int maxZoom;
+
+    private int zoom;
+
+    private boolean isZoomSupported;
 
     private Context context;
 
@@ -150,9 +156,9 @@ public final class CameraManager {
 
     /**
      * Configure the camera parameters, including preview size.
-     *
+     * <p>
      * The camera must be opened before calling this.
-     *
+     * <p>
      * Must be called from camera thread.
      */
     public void configure() {
@@ -175,7 +181,7 @@ public final class CameraManager {
 
     /**
      * Asks the camera hardware to begin drawing preview frames to the screen.
-     *
+     * <p>
      * Must be called from camera thread.
      */
     public void startPreview() {
@@ -191,7 +197,7 @@ public final class CameraManager {
 
     /**
      * Tells the camera to stop drawing preview frames.
-     *
+     * <p>
      * Must be called from camera thread.
      */
     public void stopPreview() {
@@ -212,7 +218,7 @@ public final class CameraManager {
 
     /**
      * Closes the camera driver if still in use.
-     *
+     * <p>
      * Must be called from camera thread.
      */
     public void close() {
@@ -233,9 +239,8 @@ public final class CameraManager {
     }
 
     /**
-     *
      * @return the camera rotation relative to display rotation, in degrees. Typically 0 if the
-     *    display is in landscape orientation.
+     * display is in landscape orientation.
      */
     public int getCameraRotation() {
         return rotationDegrees;
@@ -420,7 +425,7 @@ public final class CameraManager {
 
     /**
      * A single preview frame will be returned to the supplied callback.
-     *
+     * <p>
      * The thread on which this called is undefined, so a Handler should be used to post the result
      * to the correct thread.
      *
@@ -470,7 +475,7 @@ public final class CameraManager {
                         autoFocusManager.start();
                     }
                 }
-            } catch(RuntimeException e) {
+            } catch (RuntimeException e) {
                 // Camera error. Could happen if the camera is being closed.
                 Log.e(TAG, "Failed to set torch", e);
             }
@@ -486,7 +491,7 @@ public final class CameraManager {
         if (camera != null) {
             try {
                 camera.setParameters(callback.changeCameraParameters(camera.getParameters()));
-            } catch(RuntimeException e) {
+            } catch (RuntimeException e) {
                 // Camera error. Could happen if the camera is being closed.
                 Log.e(TAG, "Failed to change camera parameters", e);
             }
@@ -494,7 +499,6 @@ public final class CameraManager {
     }
 
     /**
-     *
      * @return true if the torch is on
      * @throws RuntimeException if there is a camera error
      */
@@ -518,5 +522,43 @@ public final class CameraManager {
      */
     public Camera getCamera() {
         return camera;
+    }
+
+    /**
+     * Returns the is zoom supported of the Camera
+     *
+     * @return isZoomSupported
+     */
+    public boolean getIsZoomSupported() {
+        return camera.getParameters().isZoomSupported();
+    }
+
+    /**
+     * Returns the max zoom of the Camera
+     *
+     * @return maxZoom
+     */
+    public int getMaxZoom() {
+        return camera.getParameters().getMaxZoom();
+    }
+
+    /**
+     * Returns the zoom of the Camera
+     *
+     * @return zoom
+     */
+    public int getZoom() {
+        return camera.getParameters().getZoom();
+    }
+
+    /**
+     * Set the camera zoom
+     *
+     * @param zoom newZoom
+     */
+    public void setZoom(int zoom) {
+        Camera.Parameters param = camera.getParameters();
+        param.setZoom(zoom);
+        camera.setParameters(param);
     }
 }
