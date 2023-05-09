@@ -322,4 +322,8 @@ public class CameraInstance {
         int zoomLevel = curZoom;
         cameraThread.enqueue(() -> cameraManager.setZoom(zoomLevel));
     }
+
+    public void manualFocus() {
+        cameraManager.focus();
+    }
 }

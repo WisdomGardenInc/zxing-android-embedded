@@ -180,6 +180,14 @@ public class BarcodeView extends CameraPreview {
         stopDecoderThread();
     }
 
+    /**
+     * Manual focus of camera
+     */
+    public void manualFocus() {
+        CameraInstance cameraInstance = getCameraInstance();
+        cameraInstance.manualFocus();
+    }
+
     protected DecoderFactory createDefaultDecoderFactory() {
         return new DefaultDecoderFactory();
     }

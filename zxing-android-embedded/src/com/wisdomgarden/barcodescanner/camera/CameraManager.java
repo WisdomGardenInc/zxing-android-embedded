@@ -561,4 +561,11 @@ public final class CameraManager {
         param.setZoom(zoom);
         camera.setParameters(param);
     }
+
+    /**
+     * Auto Focus the camera
+     */
+    public void focus(){
+        autoFocusManager.start();
+    }
 }
