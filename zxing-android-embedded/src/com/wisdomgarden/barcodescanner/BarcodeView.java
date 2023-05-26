@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.google.zxing.DecodeHintType;
@@ -28,6 +29,8 @@ import java.util.Map;
  */
 public class BarcodeView extends CameraPreview {
 
+    private static final String TAG = BarcodeView.class.getSimpleName();
+
     private enum DecodeMode {
         NONE,
         SINGLE,
@@ -39,7 +42,6 @@ public class BarcodeView extends CameraPreview {
     private DecoderThread decoderThread;
 
     private DecoderFactory decoderFactory;
-
 
     private Handler resultHandler;
 
@@ -105,7 +107,11 @@ public class BarcodeView extends CameraPreview {
     public void setOnScaleGestureListener(View view) {
         new GestureDetectorManager(this.ctx, view, isZoomIn -> {
             CameraInstance cameraInstance = getCameraInstance();
-            cameraInstance.zoomCamera(isZoomIn);
+            if (cameraInstance != null) {
+                cameraInstance.zoomCamera(isZoomIn);
+            } else {
+                Log.e(TAG, "setOnScaleGestureListener: cameraInstance is null");
+            }
         });
     }
 
@@ -185,7 +191,11 @@ public class BarcodeView extends CameraPreview {
      */
     public void manualFocus() {
         CameraInstance cameraInstance = getCameraInstance();
-        cameraInstance.manualFocus();
+        if (cameraInstance != null) {
+            cameraInstance.manualFocus();
+        } else {
+            Log.e(TAG, "manualFocus: cameraInstance is null");
+        }
     }
 
     protected DecoderFactory createDefaultDecoderFactory() {

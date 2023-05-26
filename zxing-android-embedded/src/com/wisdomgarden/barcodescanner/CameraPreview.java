@@ -26,6 +26,7 @@ import com.wisdomgarden.barcodescanner.camera.CameraInstance;
 import com.wisdomgarden.barcodescanner.camera.CameraParametersCallback;
 import com.wisdomgarden.barcodescanner.camera.CameraSettings;
 import com.wisdomgarden.barcodescanner.camera.CameraSurface;
+import com.wisdomgarden.barcodescanner.camera.CameraZoomConfig;
 import com.wisdomgarden.barcodescanner.camera.CenterCropStrategy;
 import com.wisdomgarden.barcodescanner.camera.FitCenterStrategy;
 import com.wisdomgarden.barcodescanner.camera.DisplayConfiguration;
@@ -39,15 +40,15 @@ import java.util.List;
  * CameraPreview is a view that handles displaying of a camera preview on a SurfaceView. It is
  * intended to be used as a base for realtime processing of camera images, e.g. barcode decoding
  * or OCR, although none of this happens in CameraPreview itself.
- *
+ * <p>
  * The camera is managed on a separate thread, using CameraInstance.
- *
+ * <p>
  * Two methods MUST be called on CameraPreview to manage its state:
  * 1. resume() - initialize the camera and start the preview. Call from the Activity's onResume().
  * 2. pause() - stop the preview and release any resources. Call from the Activity's onPause().
- *
+ * <p>
  * Startup sequence:
- *
+ * <p>
  * 1. Create SurfaceView.
  * 2. open camera.
  * 2. layout this container, to get size
@@ -142,6 +143,8 @@ public class CameraPreview extends ViewGroup {
     private PreviewScalingStrategy previewScalingStrategy = null;
 
     private boolean torchOn = false;
+
+    private CameraZoomConfig cameraZoomConfig = new CameraZoomConfig();
 
     @TargetApi(14)
     private TextureView.SurfaceTextureListener surfaceTextureListener() {
@@ -477,7 +480,7 @@ public class CameraPreview extends ViewGroup {
 
     /**
      * Calculate transformation for the TextureView.
-     *
+     * <p>
      * An identity matrix would cause the preview to be scaled up/down to fill the TextureView.
      *
      * @param textureSize the size of the textureView
@@ -554,7 +557,7 @@ public class CameraPreview extends ViewGroup {
 
     /**
      * The framing rectangle, relative to this view. Use to draw the rectangle.
-     *
+     * <p>
      * Will never be null while the preview is active.
      *
      * @return the framing rect, or null
@@ -566,7 +569,7 @@ public class CameraPreview extends ViewGroup {
 
     /**
      * The framing rect, relative to the camera preview resolution.
-     *
+     * <p>
      * Will never be null while the preview is active.
      *
      * @return the preview rect, or null
@@ -590,7 +593,7 @@ public class CameraPreview extends ViewGroup {
     /**
      * Set the CameraSettings. Use this to select a different camera, change exposure and torch
      * settings, and some other options.
-     *
+     * <p>
      * This has no effect if the camera is already open.
      *
      * @param cameraSettings the new settings
@@ -600,9 +603,59 @@ public class CameraPreview extends ViewGroup {
     }
 
     /**
+     * Set the camera zoom config. Use this to change maxZoom and zoomStep.
+     * <p>
+     * This has no effect if the camera is already open.
+     *
+     * @param cameraZoomConfig the new camera zoom config
+     */
+    public void setCameraZoomConfig(CameraZoomConfig cameraZoomConfig) {
+        this.cameraZoomConfig = cameraZoomConfig;
+    }
+
+    /**
+     * Set the camera max zoom. Use this to change max zoom.
+     * <p>
+     * This has no effect if the camera is already open.
+     *
+     * @param maxZoom the camera new max zoom
+     */
+    public void setCameraMaxZoom(int maxZoom) {
+        if (cameraInstance == null || !cameraInstance.isOpen()) {
+            this.cameraZoomConfig.setMaxZoom(maxZoom);
+        }
+    }
+
+    /**
+     * Set the camera zoom step. Use this to change zoom step.
+     * <p>
+     * This has no effect if the camera is already open.
+     *
+     * @param zoomStep the camera new zoom step
+     */
+    public void setCameraZoomStep(int zoomStep) {
+        if (cameraInstance == null || !cameraInstance.isOpen()) {
+            this.cameraZoomConfig.setZoomStep(zoomStep);
+        }
+    }
+
+    /**
+     * Set the camera zoom supported. Use this to change is zoom supported.
+     * <p>
+     * This has no effect if the camera is already open.
+     *
+     * @param supported the camera zoom supported
+     */
+    public void setCameraZoomSupported(boolean supported) {
+        if (cameraInstance == null || !cameraInstance.isOpen()) {
+            this.cameraZoomConfig.setZoomSupported(supported);
+        }
+    }
+
+    /**
      * Start the camera preview and decoding. Typically this should be called from the Activity's
      * onResume() method.
-     *
+     * <p>
      * Call from UI thread only.
      */
     public void resume() {
@@ -636,7 +689,7 @@ public class CameraPreview extends ViewGroup {
     /**
      * Pause scanning and the camera preview. Typically this should be called from the Activity's
      * onPause() method.
-     *
+     * <p>
      * Call from UI thread only.
      */
     public void pause() {
@@ -670,14 +723,14 @@ public class CameraPreview extends ViewGroup {
 
     /**
      * Pause scanning and preview; waiting for the Camera to be closed.
-     *
+     * <p>
      * This blocks the main thread.
      */
     public void pauseAndWait() {
         CameraInstance instance = getCameraInstance();
         pause();
         long startTime = System.nanoTime();
-        while(instance != null && !instance.isCameraClosed()) {
+        while (instance != null && !instance.isCameraClosed()) {
             if (System.nanoTime() - startTime > 2000000000) {
                 // Don't wait for longer than 2 seconds
                 break;
@@ -726,7 +779,7 @@ public class CameraPreview extends ViewGroup {
 
     /**
      * Set to true to use TextureView instead of SurfaceView.
-     *
+     * <p>
      * Will only have an effect on API >= 14.
      *
      * @param useTextureView true to use TextureView.
@@ -766,7 +819,7 @@ public class CameraPreview extends ViewGroup {
 
     /**
      * Create a new CameraInstance.
-     *
+     * <p>
      * Override to use a custom CameraInstance.
      *
      * @return a new CameraInstance
@@ -774,6 +827,7 @@ public class CameraPreview extends ViewGroup {
     protected CameraInstance createCameraInstance() {
         CameraInstance cameraInstance = new CameraInstance(getContext());
         cameraInstance.setCameraSettings(cameraSettings);
+        cameraInstance.setCameraZoomConfig(cameraZoomConfig);
         return cameraInstance;
     }
 
@@ -799,7 +853,7 @@ public class CameraPreview extends ViewGroup {
     /**
      * Get the current CameraInstance. This may be null, and may change when
      * pausing / resuming the preview.
-     *
+     * <p>
      * While the preview is active, getCameraInstance() will never be null.
      *
      * @return the current CameraInstance
@@ -821,9 +875,9 @@ public class CameraPreview extends ViewGroup {
 
     /**
      * Calculate framing rectangle, relative to the preview frame.
-     *
+     * <p>
      * Note that the SurfaceView may be larger than the container.
-     *
+     * <p>
      * Override this for more control over the framing rect calculations.
      *
      * @param container this container, with left = top = 0
@@ -843,7 +897,7 @@ public class CameraPreview extends ViewGroup {
             return intersection;
         }
         // margin as 10% (default) of the smaller of width, height
-        int margin = (int)Math.min(intersection.width() * marginFraction, intersection.height() * marginFraction);
+        int margin = (int) Math.min(intersection.width() * marginFraction, intersection.height() * marginFraction);
         intersection.inset(margin, margin);
         if (intersection.height() > intersection.width()) {
             // We don't want a frame that is taller than wide.
@@ -868,7 +922,7 @@ public class CameraPreview extends ViewGroup {
             super.onRestoreInstanceState(state);
             return;
         }
-        Bundle myState = (Bundle)state;
+        Bundle myState = (Bundle) state;
         Parcelable superState = myState.getParcelable("super");
         super.onRestoreInstanceState(superState);
         boolean torch = myState.getBoolean("torch");
@@ -876,7 +930,6 @@ public class CameraPreview extends ViewGroup {
     }
 
     /**
-     *
      * @return true if the camera has been closed in a background thread.
      */
     public boolean isCameraClosed() {

@@ -21,6 +21,9 @@ public class CameraInstance {
     private CameraSurface surface;
 
     private CameraManager cameraManager;
+
+    private CameraZoomConfig cameraZoomConfig;
+
     private Handler readyHandler;
     private DisplayConfiguration displayConfiguration;
     private boolean open = false;
@@ -43,6 +46,8 @@ public class CameraInstance {
         this.cameraManager = new CameraManager(context);
         this.cameraManager.setCameraSettings(cameraSettings);
         this.mainHandler = new Handler();
+        this.cameraZoomConfig = new CameraZoomConfig();
+
     }
 
     /**
@@ -54,6 +59,7 @@ public class CameraInstance {
         Util.validateMainThread();
 
         this.cameraManager = cameraManager;
+        this.cameraZoomConfig = new CameraZoomConfig();
     }
 
     public void setDisplayConfiguration(DisplayConfiguration configuration) {
@@ -90,6 +96,18 @@ public class CameraInstance {
         if (!open) {
             this.cameraSettings = cameraSettings;
             this.cameraManager.setCameraSettings(cameraSettings);
+        }
+    }
+
+    /**
+     * This only has an effect if the camera is not opened yet.
+     * set camera zoom config
+     *
+     * @param cameraZoomConfig
+     */
+    public void setCameraZoomConfig(CameraZoomConfig cameraZoomConfig) {
+        if (!open) {
+            this.cameraZoomConfig = cameraZoomConfig;
         }
     }
 
@@ -284,13 +302,37 @@ public class CameraInstance {
         return surface;
     }
 
+    public boolean getZoomSupported() {
+        return cameraZoomConfig.getZoomSupported() && cameraManager.getIsZoomSupported();
+    }
+
+    public int getMaxZoom() {
+        int finalMaxZoom = cameraZoomConfig.getMaxZoom();
+        int defaultMaxZoom = cameraManager.getMaxZoom() / 2;
+        if (finalMaxZoom < 1) {
+            return defaultMaxZoom;
+        }
+        return Math.min(defaultMaxZoom, finalMaxZoom);
+    }
+
+    public int getZoomStep() {
+        int step = cameraZoomConfig.getZoomStep();
+        int defaultZoomStep = this.getMaxZoom() / 4;
+
+        if (step < 1) {
+            return defaultZoomStep;
+        }
+
+        return step;
+    }
+
     /**
      * Change the zoom of Camera
      *
      * @param isZoomIn is zoom in
      */
     public void zoomCamera(boolean isZoomIn) {
-        if (!cameraManager.getIsZoomSupported()) {
+        if (!getZoomSupported()) {
             return;
         }
         Util.validateMainThread();
@@ -298,9 +340,11 @@ public class CameraInstance {
             return;
         }
 
-        int maxZoom = cameraManager.getMaxZoom();
+        int maxZoom = this.getMaxZoom();
+        int zoomStep = getZoomStep();
         int curZoom = cameraManager.getZoom();
-        int zoomStep = 5;
+        Log.i(TAG, "[zoomCamera:zoomStep]" + zoomStep);
+        Log.i(TAG, "[zoomCamera:maxZoom]" + maxZoom);
 
         if (isZoomIn) {
             if (curZoom < maxZoom) {
@@ -319,8 +363,10 @@ public class CameraInstance {
             curZoom = 0;
         }
 
-        int zoomLevel = curZoom;
-        cameraThread.enqueue(() -> cameraManager.setZoom(zoomLevel));
+        if (curZoom != cameraManager.getZoom()) {
+            final int zoomLevel = curZoom;
+            cameraThread.enqueue(() -> cameraManager.setZoom(zoomLevel));
+        }
     }
 
     public void manualFocus() {
