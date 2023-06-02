@@ -31,3 +31,7 @@ feat:
   3. set max zoom
   mBarcodeView.setCameraMaxZoom(int maxZoom)
   ```
+
+# v1.2.1
+feedback:
+1. fix scan scaling speed too fast

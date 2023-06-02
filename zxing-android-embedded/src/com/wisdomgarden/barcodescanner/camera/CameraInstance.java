@@ -344,7 +344,6 @@ public class CameraInstance {
         int zoomStep = getZoomStep();
         int curZoom = cameraManager.getZoom();
         Log.i(TAG, "[zoomCamera:zoomStep]" + zoomStep);
-        Log.i(TAG, "[zoomCamera:maxZoom]" + maxZoom);
 
         if (isZoomIn) {
             if (curZoom < maxZoom) {
@@ -365,6 +364,7 @@ public class CameraInstance {
 
         if (curZoom != cameraManager.getZoom()) {
             final int zoomLevel = curZoom;
+            Log.i(TAG, "[zoomCamera:zoomLevel]" + zoomLevel);
             cameraThread.enqueue(() -> cameraManager.setZoom(zoomLevel));
         }
     }

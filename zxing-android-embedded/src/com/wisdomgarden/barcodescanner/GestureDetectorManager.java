@@ -10,13 +10,26 @@ import com.google.zxing.common.detector.MathUtils;
 
 public class GestureDetectorManager extends GestureDetector.SimpleOnGestureListener implements View.OnTouchListener {
     private final GestureDetector detector;
-    private float mOldDis;
+    private int mOldDis;
     private final GestureHandler gestureHandler;
 
     public GestureDetectorManager(Context context, View viewfinderView, GestureHandler gestureHandler) {
         this.detector = new GestureDetector(context, this);
         this.gestureHandler = gestureHandler;
         viewfinderView.setOnTouchListener(this);
+    }
+
+    private long lastUpdateTime = 0;
+
+    private boolean throttleIntervalPassed() {
+        long currentTime = System.currentTimeMillis();
+        double throttleInterval = 30;
+        long diff = currentTime - lastUpdateTime;
+        if (diff > throttleInterval) {
+            lastUpdateTime = currentTime;
+            return true;
+        }
+        return false;
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -32,7 +45,10 @@ public class GestureDetectorManager extends GestureDetector.SimpleOnGestureListe
                 mOldDis = getFingerSpacing(event);
                 break;
             case MotionEvent.ACTION_MOVE:
-                float newDis = getFingerSpacing(event);
+                if (!this.throttleIntervalPassed()) {
+                    return false;
+                }
+                int newDis = getFingerSpacing(event);
                 if (newDis > mOldDis) {
                     handleZoom(true);
                 } else if (newDis < mOldDis) {
@@ -49,9 +65,10 @@ public class GestureDetectorManager extends GestureDetector.SimpleOnGestureListe
         return super.onDoubleTap(e);
     }
 
-    private float getFingerSpacing(MotionEvent event) {
+    private int getFingerSpacing(MotionEvent event) {
         if (event.getPointerCount() >= 2) {
-            return MathUtils.distance(event.getX(0), event.getY(0), event.getX(1), event.getY(1));
+            float distance = MathUtils.distance(event.getX(0), event.getY(0), event.getX(1), event.getY(1));
+            return Double.valueOf(Math.floor(distance)).intValue();
         }
         return -1;
     }
