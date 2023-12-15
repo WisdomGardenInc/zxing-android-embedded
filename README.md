@@ -1,4 +1,5 @@
 # WisdomGarden ZXing Android Embedded
+## The repository has been migrated to [Gitlab](https://gitlab.tronclass.com.cn/lms/zxing-android-embedded) on 2023-8-17
 
 Fork from [zxing-android-embedded][2] of V4.3.0
 
